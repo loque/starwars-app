@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
-import { RedisModule as IORedisModule } from "@nestjs-modules/ioredis";
+import { RedisModule } from "@nestjs-modules/ioredis";
 import { SwapiModule } from "./swapi/swapi.module";
-import { RedisModule } from "./redis/redis.module";
+import { CacheModule } from "./cache/cache.module";
 
 const REDIS_HOST = process.env.REDIS_HOST || "localhost";
 const REDIS_PORT = process.env.REDIS_PORT || 6379;
@@ -10,14 +10,12 @@ const REDIS_URL =
 
 @Module({
   imports: [
-    SwapiModule,
-    IORedisModule.forRoot({
+    RedisModule.forRoot({
       type: "single",
       url: REDIS_URL,
     }),
-    RedisModule,
+    CacheModule,
+    SwapiModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

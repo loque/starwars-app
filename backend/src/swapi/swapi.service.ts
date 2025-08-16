@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { HttpException, Injectable, Logger } from "@nestjs/common";
 import { firstValueFrom } from "rxjs";
-import { RedisService } from "src/redis/redis.service";
+import { CacheService } from "src/cache/cache.service";
 import type { AxiosError } from "axios";
 import type {
   SwapiFilmDto,
@@ -28,7 +28,7 @@ export class SwapiService {
 
   constructor(
     private readonly http: HttpService,
-    private readonly cache: RedisService,
+    private readonly cache: CacheService,
   ) {}
 
   private readonly TTL = 60 * 60 * 24; // 1 day in seconds

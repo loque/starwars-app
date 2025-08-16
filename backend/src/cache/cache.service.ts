@@ -3,8 +3,8 @@ import { InjectRedis } from "@nestjs-modules/ioredis";
 import type Redis from "ioredis";
 
 @Injectable()
-export class RedisService {
-  private readonly logger = new Logger(RedisService.name);
+export class CacheService {
+  private readonly logger = new Logger(CacheService.name);
 
   constructor(@InjectRedis() private readonly client: Redis) {}
 
