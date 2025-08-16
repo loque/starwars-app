@@ -3,8 +3,8 @@ import { Outlet } from 'react-router';
 export default function MainLayout() {
   return (
     <>
-      <header>
-        <h1 className='text-brand'>SWStarter</h1>
+      <header className='flex items-center justify-center bg-background h-[3.677rem] md:h-[3.125rem] border-b-brand border-b-1 md:border-b-0 md:shadow-[0_2px_0_0_#dadada]'>
+        <h1 className='text-brand font-bold text-lg md:text-md'>SWStarter</h1>
       </header>
       <main>
         <Outlet />
