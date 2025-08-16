@@ -4,7 +4,10 @@ export function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
-      className={cn("w-full h-full p-8 pb-10 flex flex-col", className)}
+      className={cn(
+        "w-full h-full p-8 pb-10 flex flex-col md:bg-background md:rounded-xs md:shadow-[0_1px_2px_0_#848484bf] md:border-[#dadada] md:border-1 md:w-auto md:h-auto",
+        className,
+      )}
       {...props}
     />
   );

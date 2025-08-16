@@ -17,11 +17,11 @@ export default function Home() {
   const displayResults = Boolean(useMatch("/results"));
 
   return (
-    <div data-slot="home" className="w-full h-full">
+    <div data-slot="home" className="w-full h-full flex">
       <div className="md:hidden w-full h-full">
         {displayResults ? <ResultsBox /> : <SearchBox />}
       </div>
-      <div className="hidden md:block">
+      <div className="hidden md:flex flex-1 flex-row max-w-5xl gap-8 py-8 mx-auto items-start">
         <SearchBox />
         <ResultsBox />
       </div>
