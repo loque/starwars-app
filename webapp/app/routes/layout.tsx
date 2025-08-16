@@ -6,7 +6,7 @@ export default function MainLayout() {
       <header className='flex items-center justify-center bg-background h-[3.677rem] md:h-[3.125rem] border-b-brand border-b-1 md:border-b-0 md:shadow-[0_2px_0_0_#dadada]'>
         <h1 className='text-brand font-bold text-lg md:text-md'>SWStarter</h1>
       </header>
-      <main>
+      <main className='w-full h-full'>
         <Outlet />
       </main>
     </>
