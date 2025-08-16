@@ -1,11 +1,12 @@
-import { Inject, Injectable } from "@nestjs/common";
-import type { RedisClientType } from "redis";
+import { Injectable, Logger } from "@nestjs/common";
+import { InjectRedis } from "@nestjs-modules/ioredis";
+import type Redis from "ioredis";
 
 @Injectable()
 export class RedisService {
-  constructor(
-    @Inject("REDIS_CLIENT") private readonly client: RedisClientType,
-  ) {}
+  private readonly logger = new Logger(RedisService.name);
+
+  constructor(@InjectRedis() private readonly client: Redis) {}
 
   async get<T = unknown>(key: string): Promise<T | null> {
     const raw = await this.client.get(key);
@@ -19,7 +20,7 @@ export class RedisService {
   ): Promise<void> {
     const json = JSON.stringify(value);
     if (ttlSeconds && ttlSeconds > 0) {
-      await this.client.set(key, json, { EX: ttlSeconds });
+      await this.client.set(key, json, "EX", ttlSeconds);
     } else {
       await this.client.set(key, json);
     }
@@ -34,10 +35,17 @@ export class RedisService {
     fetcher: () => Promise<T>,
   ): Promise<T> {
     const cached = await this.get<T>(key);
-    if (cached !== null) return cached;
+    if (cached !== null) {
+      this.logger.debug(`Cache hit for key="${key}"`);
+      return cached;
+    }
+    this.logger.debug(`Cache miss for key="${key}", fetching fresh value`);
     const fresh = await fetcher();
     // Note that we are caching null and undefined values as well.
     await this.set(key, fresh, ttlSeconds);
+    this.logger.debug(
+      `Stored value in cache for key="${key}" (ttl=${ttlSeconds}s)`,
+    );
     return fresh;
   }
 
