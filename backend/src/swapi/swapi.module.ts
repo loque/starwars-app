@@ -1,6 +1,7 @@
 import { Module } from "@nestjs/common";
 import { HttpModule } from "@nestjs/axios";
 import { SwapiService } from "./swapi.service";
+import { SwapiController } from "./swapi.controller";
 
 @Module({
   imports: [
@@ -11,5 +12,6 @@ import { SwapiService } from "./swapi.service";
   ],
   providers: [SwapiService],
   exports: [SwapiService],
+  controllers: [SwapiController],
 })
 export class SwapiModule {}

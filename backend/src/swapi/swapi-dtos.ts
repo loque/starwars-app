@@ -23,7 +23,7 @@ export type SwapiFilmDto = {
 
 export type SwapiSuccessDto<T> = {
   message: "ok";
-  result: T[];
+  result: T;
 };
 
 export type SwapiErrorDto = {
@@ -39,12 +39,14 @@ export type SwapiPerson = {
   eye_color: string;
   hair_color: string;
   mass: string;
-  movies: SwapiMovie[];
+  movies: SwapiMovieSummary[];
 };
+export type SwapiPersonSummary = Pick<SwapiPerson, "uid" | "name">;
 
 export type SwapiMovie = {
   uid: string;
   title: string;
   opening_crawl: string;
-  characters: SwapiPerson[];
+  characters: SwapiPersonSummary[];
 };
+export type SwapiMovieSummary = Pick<SwapiMovie, "uid" | "title">;
