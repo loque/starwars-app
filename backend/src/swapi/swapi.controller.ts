@@ -1,7 +1,9 @@
-import { Controller, Get, Param, Query } from "@nestjs/common";
+import { Controller, Get, Param, Query, UseInterceptors } from "@nestjs/common";
 import { SwapiService } from "./swapi.service";
+import { MetricsInterceptor } from "../metrics/metrics.interceptor";
 
 @Controller("")
+@UseInterceptors(MetricsInterceptor)
 export class SwapiController {
   constructor(private readonly swapiService: SwapiService) {}
 

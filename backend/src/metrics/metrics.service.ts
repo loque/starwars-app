@@ -1,0 +1,82 @@
+import { Injectable, Logger } from "@nestjs/common";
+import { InjectRedis } from "@nestjs-modules/ioredis";
+import { InjectQueue } from "@nestjs/bull";
+import type { Queue } from "bullmq";
+import type Redis from "ioredis";
+import { METRICS_QUEUE, MetricsJob } from "./metrics.constants";
+
+export interface QueryMetric {
+  endpoint: string;
+  query: string;
+  responseTime: number;
+  timestamp: number;
+  statusCode: number;
+}
+
+@Injectable()
+export class MetricsService {
+  private readonly logger = new Logger(MetricsService.name);
+  private readonly BATCH_KEY = "metrics:batch";
+
+  constructor(
+    @InjectRedis() private readonly redis: Redis,
+    @InjectQueue(METRICS_QUEUE) private readonly metricsQueue: Queue,
+  ) {}
+
+  async recordQuery(metric: QueryMetric): Promise<void> {
+    try {
+      await this.redis.lpush(this.BATCH_KEY, JSON.stringify(metric));
+
+      // Schedule processing job if not already scheduled
+      const pendingJobs = await this.metricsQueue.getWaiting();
+      if (pendingJobs.length === 0) {
+        await this.metricsQueue.add(
+          MetricsJob.PROCESS_BATCH,
+          {},
+          {
+            delay: 10_000,
+            removeOnComplete: 5,
+            removeOnFail: 3,
+          },
+        );
+      }
+    } catch (error) {
+      this.logger.error("Failed to record metric", error);
+    }
+  }
+
+  async getBatchedMetrics(): Promise<QueryMetric[]> {
+    try {
+      // Atomic: prevents losing metrics added between read and delete
+      const results = await this.redis
+        .multi()
+        .lrange(this.BATCH_KEY, 0, -1)
+        .del(this.BATCH_KEY)
+        .exec();
+
+      if (!results || results.length === 0) {
+        return [];
+      }
+
+      const [rangeResult] = results;
+      if (rangeResult[0] !== null || !Array.isArray(rangeResult[1])) {
+        this.logger.warn("Failed to retrieve metrics from Redis");
+        return [];
+      }
+
+      const rawMetrics = rangeResult[1] as string[];
+      return rawMetrics
+        .map((raw) => {
+          try {
+            return JSON.parse(raw) as QueryMetric;
+          } catch {
+            return null;
+          }
+        })
+        .filter((metric): metric is QueryMetric => metric !== null);
+    } catch (error) {
+      this.logger.error("Failed to get batched metrics", error);
+      return [];
+    }
+  }
+}
