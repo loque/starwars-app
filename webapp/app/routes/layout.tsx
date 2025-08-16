@@ -4,7 +4,7 @@ export default function MainLayout() {
   return (
     <>
       <header>
-        <h1>SWStarter</h1>
+        <h1 className='text-brand'>SWStarter</h1>
       </header>
       <main>
         <Outlet />
