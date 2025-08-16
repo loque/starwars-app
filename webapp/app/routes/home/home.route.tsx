@@ -17,8 +17,8 @@ export default function Home() {
   const displayResults = Boolean(useMatch("/results"));
 
   return (
-    <div data-slot="home">
-      <div className="md:hidden">
+    <div data-slot="home" className="w-full h-full">
+      <div className="md:hidden w-full h-full">
         {displayResults ? <ResultsBox /> : <SearchBox />}
       </div>
       <div className="hidden md:block">

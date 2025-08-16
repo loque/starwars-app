@@ -1,14 +1,11 @@
-import { cn } from '~/lib/utils';
+import { cn } from "~/lib/utils";
 
 export function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
-      className={cn(
-        "w-full h-full p-8",
-        className
-      )}
+      className={cn("w-full h-full p-8 pb-10 flex flex-col", className)}
       {...props}
     />
-  )
+  );
 }
