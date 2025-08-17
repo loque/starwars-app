@@ -8,8 +8,9 @@ const envSchema = z.object({
   MONGO_USER: z.string().min(2).max(100),
   MONGO_PASSWORD: z.string().min(6).max(100),
   MONGO_DB: z.string().min(2).max(100),
+  MONGO_HOST: z.string().min(2).max(100).default("localhost"),
   MONGO_PORT: z.coerce.number().min(1).max(65535),
-  REDIS_HOST: z.string().min(2).max(100),
+  REDIS_HOST: z.string().min(2).max(100).default("localhost"),
   REDIS_PORT: z.coerce.number().min(1).max(65535),
 });
 

@@ -8,7 +8,7 @@ import { MongooseModule } from "@nestjs/mongoose";
 
 import { env } from "./env";
 
-const MONGO_URL = `mongodb://${env.MONGO_USER}:${env.MONGO_PASSWORD}@localhost:${env.MONGO_PORT}/${env.MONGO_DB}?authSource=admin`;
+const MONGO_URL = `mongodb://${env.MONGO_USER}:${env.MONGO_PASSWORD}@${env.MONGO_HOST}:${env.MONGO_PORT}/${env.MONGO_DB}?authSource=admin`;
 const REDIS_URL = `redis://${env.REDIS_HOST}:${env.REDIS_PORT}`;
 
 @Module({
