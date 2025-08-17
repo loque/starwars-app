@@ -16,10 +16,10 @@ export function ResultsBox({ results }: ResultsBoxProps) {
           {results.map((result) => (
             <li
               key={result.uid}
-              className="flex justify-between items-center border-b border-[#c4c4c4] py-2.5"
+              className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-[#c4c4c4] py-2.5"
             >
               <H3>{isPersonSummary(result) ? result.name : result.title}</H3>
-              <Button className="w-auto" asChild>
+              <Button className="md:w-auto" asChild>
                 <Link
                   to={
                     isPersonSummary(result)
@@ -35,10 +35,15 @@ export function ResultsBox({ results }: ResultsBoxProps) {
         </ul>
       )}
       {!results?.length && (
-        <div className="text-[#c4c4c4] font-bold text-center">
-          <P>There are zero matches.</P>
-          <P>Use the form to search for People or Movies.</P>
-        </div>
+        <>
+          <div className="text-[#c4c4c4] font-bold text-center flex-1 flex flex-col justify-center">
+            <P>There are zero matches.</P>
+            <P>Use the form to search for People or Movies.</P>
+          </div>
+          <Button className="md:hidden" asChild>
+            <Link to={`/`}>Back to search</Link>
+          </Button>
+        </>
       )}
     </Card>
   );
