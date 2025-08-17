@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home.route";
-import { useMatch, useNavigation } from "react-router";
+import { useMatch, useFetcher } from "react-router";
 import { ResultsBox } from "./results-box";
 import { SearchBox } from "./search-box";
 import { api, type SearchResult } from "~/lib/api";
@@ -25,31 +25,39 @@ export async function action({ request }: Route.ActionArgs) {
   const searchType = formData.get("searchType");
   const searchTerm = formData.get("searchTerm");
   const searchProp = searchType === "people" ? "name" : "title";
-  const res = await api().get<SearchResult[]>(`/${searchType}`, {
+  const res = api().get<SearchResult[]>(`/${searchType}`, {
     params: { [searchProp]: searchTerm },
   });
-  return res.data;
+  return res;
 }
 
-export default function Home({ actionData: results }: Route.ComponentProps) {
-  const navigation = useNavigation();
-  const isNavigating = Boolean(navigation.location);
+export default function Home({ actionData }: Route.ComponentProps) {
   const displayResults = Boolean(useMatch("/results"));
+  const fetcher = useFetcher();
+
+  const searchResults = fetcher.data?.data || actionData?.data;
+  const isLoading =
+    fetcher.state !== "idle" || Boolean(actionData && !searchResults);
+
+  const searchBox = <SearchBox fetcher={fetcher} isLoading={isLoading} />;
+  const resultsBox = (
+    <ResultsBox results={searchResults} isLoading={isLoading} />
+  );
 
   return (
     <>
       <Header>
-        {displayResults && !isNavigating && <HeaderBackButton />}
+        {displayResults && !isLoading && <HeaderBackButton />}
         <HeaderTitle />
       </Header>
       <Main>
         <div data-slot="home" className="w-full h-full flex">
           <div className="md:hidden w-full h-full">
-            {displayResults ? <ResultsBox results={results} /> : <SearchBox />}
+            {displayResults ? resultsBox : searchBox}
           </div>
           <div className="hidden md:flex flex-1 flex-row max-w-5xl gap-8 py-8 mx-auto items-start">
-            <SearchBox />
-            <ResultsBox results={results} />
+            {searchBox}
+            {resultsBox}
           </div>
         </div>
       </Main>

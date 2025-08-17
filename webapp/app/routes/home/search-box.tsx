@@ -5,21 +5,30 @@ import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import type { SearchType } from "~/lib/api";
-import { useNavigation, useSubmit } from "react-router";
+import { useNavigate, type FetcherWithComponents } from "react-router";
 import { useState } from "react";
 
-export function SearchBox() {
-  const navigation = useNavigation();
-  const isNavigating = Boolean(navigation.location);
-
+export function SearchBox({
+  isLoading,
+  fetcher,
+}: {
+  isLoading: boolean;
+  fetcher: FetcherWithComponents<any>;
+}) {
   const [searchType, setSearchType] = useState<SearchType>("people");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const submit = useSubmit();
+  const navigate = useNavigate();
 
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    submit(formData, { method: "post", action: "/results" });
+
+    navigate("/results");
+
+    fetcher.submit(formData, {
+      method: "post",
+      action: "/results",
+    });
   }
 
   const peoplePlaceholder = "e.g. Chewbacca, Yoda";
@@ -55,8 +64,8 @@ export function SearchBox() {
           />
         </div>
         <div>
-          <Button type="submit" disabled={!searchTerm || isNavigating}>
-            {isNavigating ? "Searching..." : "Search"}
+          <Button type="submit" disabled={!searchTerm || isLoading}>
+            {isLoading ? "Searching..." : "Search"}
           </Button>
         </div>
       </form>
