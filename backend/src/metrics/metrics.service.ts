@@ -89,6 +89,76 @@ export class MetricsService implements OnModuleInit {
     }));
   }
 
+  combineTopQueries(
+    newTopQueries: TopQuery[],
+    previousTopQueries: TopQuery[],
+    totalRequests: number,
+  ): TopQuery[] {
+    const queryMap = new Map<
+      string,
+      { count: number; endpoint: string; query: string }
+    >();
+
+    // Add previous queries
+    previousTopQueries.forEach((query) => {
+      const key = `${query.endpoint}:${query.query}`;
+      queryMap.set(key, {
+        count: query.count,
+        endpoint: query.endpoint,
+        query: query.query,
+      });
+    });
+
+    // Add new queries (combine counts if they exist)
+    newTopQueries.forEach((query) => {
+      const key = `${query.endpoint}:${query.query}`;
+      const existing = queryMap.get(key);
+      if (existing) {
+        existing.count += query.count;
+      } else {
+        queryMap.set(key, {
+          count: query.count,
+          endpoint: query.endpoint,
+          query: query.query,
+        });
+      }
+    });
+
+    // Convert back to TopQuery array with updated percentages
+    return Array.from(queryMap.values())
+      .map((item) => ({
+        endpoint: item.endpoint,
+        query: item.query,
+        count: item.count,
+        percentage: Math.round((item.count / totalRequests) * 100 * 100) / 100,
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5); // Top 5
+  }
+
+  combineHourlyDistribution(
+    newDistribution: HourlyDistribution[],
+    previousDistribution: HourlyDistribution[],
+  ): HourlyDistribution[] {
+    const hourMap = new Map<number, number>();
+
+    // Add previous distribution
+    previousDistribution.forEach(({ hour, count }) => {
+      hourMap.set(hour, count);
+    });
+
+    // Add new distribution (combine counts)
+    newDistribution.forEach(({ hour, count }) => {
+      const existing = hourMap.get(hour) || 0;
+      hourMap.set(hour, existing + count);
+    });
+
+    return Array.from(hourMap.entries()).map(([hour, count]) => ({
+      hour,
+      count,
+    }));
+  }
+
   @Process(MetricsJob.GENERATE_REPORT)
   async generateReport(): Promise<void> {
     this.logger.log("Generating report");
@@ -103,11 +173,35 @@ export class MetricsService implements OnModuleInit {
       return;
     }
 
-    const totalRequests = newMetrics.length;
+    // Calculate accumulated stats
+    const newRequestsCount = newMetrics.length;
+    const previousTotalRequests = lastReport?.totalRequests || 0;
+    const totalRequests = newRequestsCount + previousTotalRequests;
+
+    // Calculate weighted average response time
+    const newTotalResponseTime = newMetrics.reduce(
+      (sum, m) => sum + m.responseTime,
+      0,
+    );
+    const previousAvgResponseTime = lastReport?.avgResponseTime || 0;
+    const previousTotalResponseTime =
+      previousTotalRequests * previousAvgResponseTime;
     const avgResponseTime =
-      newMetrics.reduce((sum, m) => sum + m.responseTime, 0) / totalRequests;
-    const topQueries = this.calculateTopQueries(newMetrics);
-    const hourlyDistribution = this.calculateHourlyDistribution(newMetrics);
+      (newTotalResponseTime + previousTotalResponseTime) / totalRequests;
+
+    // Combine top queries from new metrics with previous report
+    const allTopQueries = this.combineTopQueries(
+      this.calculateTopQueries(newMetrics),
+      lastReport?.topQueries || [],
+      totalRequests,
+    );
+
+    // Combine hourly distribution
+    const newHourlyDistribution = this.calculateHourlyDistribution(newMetrics);
+    const combinedHourlyDistribution = this.combineHourlyDistribution(
+      newHourlyDistribution,
+      lastReport?.hourlyDistribution || [],
+    );
 
     const lastProcessedMetric = newMetrics[newMetrics.length - 1];
 
@@ -115,12 +209,12 @@ export class MetricsService implements OnModuleInit {
       lastProcessedMetricId: lastProcessedMetric._id,
       totalRequests,
       avgResponseTime,
-      topQueries,
-      hourlyDistribution,
+      topQueries: allTopQueries,
+      hourlyDistribution: combinedHourlyDistribution,
     });
 
     this.logger.log(
-      `Generated report processing ${totalRequests} new metrics, cursor: ${lastProcessedMetric.id}`,
+      `Generated report processing ${newRequestsCount} new metrics, total: ${totalRequests}, cursor: ${lastProcessedMetric.id}`,
     );
   }
 
