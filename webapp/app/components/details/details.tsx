@@ -13,7 +13,7 @@ export function DetailsPage({ children }: { children: React.ReactNode }) {
         <HeaderTitle />
       </Header>
       <Main>
-        <div className="md:py-8 max-w-4xl mx-auto flex-1">
+        <div className="md:py-8 max-w-4xl w-full mx-auto flex-1">
           <Card className="gap-8">{children}</Card>
         </div>
       </Main>
