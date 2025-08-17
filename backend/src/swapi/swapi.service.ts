@@ -146,7 +146,7 @@ export class SwapiService {
           }),
         );
         if (!data.result || data.result.length === 0) {
-          throw new HttpException("People not found", 404);
+          return [];
         }
         const people = data.result.map((p) => this.toPersonSummary(p));
         return people;
@@ -200,7 +200,7 @@ export class SwapiService {
           }),
         );
         if (!data.result || data.result.length === 0) {
-          throw new HttpException("Movie not found", 404);
+          return [];
         }
         const movies = data.result.map((m) => this.toMovieSummary(m));
         return movies;
