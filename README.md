@@ -45,6 +45,7 @@ Once all services are running:
 
 - **Web Application**: http://localhost:5173
 - **API Endpoints**: http://localhost:3000
+- **Swagger Documentation**: http://localhost:3000/docs
 
 ## API Testing
 
