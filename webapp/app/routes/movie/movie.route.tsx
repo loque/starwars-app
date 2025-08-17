@@ -1,7 +1,7 @@
-import { api, type Movie } from "~/lib/api";
+import { getMovie } from "~/lib/api";
 import type { Route } from "./+types/movie.route";
 import { H2, P } from "~/components/ui/text";
-import { Link } from "react-router";
+import { Link, redirect, redirectDocument } from "react-router";
 import {
   BackButton,
   DetailsBody,
@@ -22,8 +22,9 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { movieId } = params;
-  const res = await api().get<Movie>(`/movies/${movieId}`);
-  return res.data;
+  const movie = await getMovie(movieId);
+  if (!movie) throw redirect("/not-found");
+  return movie;
 }
 
 export default function MovieDetails({

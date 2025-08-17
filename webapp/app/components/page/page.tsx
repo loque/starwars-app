@@ -1,6 +1,7 @@
 import { ChevronLeft } from "lucide-react";
 import { Button } from "../ui/button";
 import { Link } from "react-router";
+import { cn } from "~/lib/utils";
 
 export function Header({ children }: { children?: React.ReactNode }) {
   return (
@@ -29,6 +30,16 @@ export function HeaderBackButton({ pathname = "/" }: { pathname?: string }) {
   );
 }
 
-export function Main({ children }: { children?: React.ReactNode }) {
-  return <main className="w-full flex-1 flex flex-col">{children}</main>;
+export function Main({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <main className={cn("w-full flex-1 flex flex-col", className)}>
+      {children}
+    </main>
+  );
 }

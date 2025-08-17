@@ -1,7 +1,7 @@
-import { api, type Person } from "~/lib/api";
+import { api, getPerson, type Person } from "~/lib/api";
 import type { Route } from "./+types/person.route";
 import { H2 } from "~/components/ui/text";
-import { Link } from "react-router";
+import { Link, redirect } from "react-router";
 import {
   BackButton,
   DetailsBody,
@@ -22,8 +22,9 @@ export function meta({}: Route.MetaArgs) {
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { personId } = params;
-  const res = await api().get<Person>(`/people/${personId}`);
-  return res.data;
+  const person = await getPerson(personId);
+  if (!person) throw redirect("/not-found");
+  return person;
 }
 
 export default function PersonDetails({

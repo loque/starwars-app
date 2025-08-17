@@ -2,7 +2,7 @@ import type { Route } from "./+types/home.route";
 import { useMatch, useFetcher } from "react-router";
 import { ResultsBox } from "./results-box";
 import { SearchBox } from "./search-box";
-import { api, type SearchResult } from "~/lib/api";
+import { search, type SearchType } from "~/lib/api";
 import {
   Header,
   HeaderBackButton,
@@ -22,13 +22,9 @@ export function meta({}: Route.MetaArgs) {
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
-  const searchType = formData.get("searchType");
-  const searchTerm = formData.get("searchTerm");
-  const searchProp = searchType === "people" ? "name" : "title";
-  const res = api().get<SearchResult[]>(`/${searchType}`, {
-    params: { [searchProp]: searchTerm },
-  });
-  return res;
+  const searchType = formData.get("searchType") as SearchType;
+  const searchTerm = formData.get("searchTerm") as string;
+  return search({ searchTerm, searchType });
 }
 
 export default function Home({ actionData }: Route.ComponentProps) {
