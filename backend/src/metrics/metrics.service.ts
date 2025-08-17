@@ -4,14 +4,7 @@ import { InjectQueue } from "@nestjs/bull";
 import type { Queue } from "bullmq";
 import type Redis from "ioredis";
 import { METRICS_QUEUE, MetricsJob } from "./metrics.constants";
-
-export interface QueryMetric {
-  endpoint: string;
-  query: string;
-  responseTime: number;
-  timestamp: number;
-  statusCode: number;
-}
+import { RequestMetricDto } from "./metrics.entities";
 
 @Injectable()
 export class MetricsService {
@@ -23,7 +16,7 @@ export class MetricsService {
     @InjectQueue(METRICS_QUEUE) private readonly metricsQueue: Queue,
   ) {}
 
-  async recordQuery(metric: QueryMetric): Promise<void> {
+  async recordMetric(metric: RequestMetricDto): Promise<void> {
     try {
       await this.redis.lpush(this.BATCH_KEY, JSON.stringify(metric));
 
@@ -45,7 +38,7 @@ export class MetricsService {
     }
   }
 
-  async getBatchedMetrics(): Promise<QueryMetric[]> {
+  async getBatchedMetrics(): Promise<RequestMetricDto[]> {
     try {
       // Atomic: prevents losing metrics added between read and delete
       const results = await this.redis
@@ -68,12 +61,12 @@ export class MetricsService {
       return rawMetrics
         .map((raw) => {
           try {
-            return JSON.parse(raw) as QueryMetric;
+            return JSON.parse(raw) as RequestMetricDto;
           } catch {
             return null;
           }
         })
-        .filter((metric): metric is QueryMetric => metric !== null);
+        .filter((metric): metric is RequestMetricDto => metric !== null);
     } catch (error) {
       this.logger.error("Failed to get batched metrics", error);
       return [];

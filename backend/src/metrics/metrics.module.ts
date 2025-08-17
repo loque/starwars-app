@@ -1,16 +1,18 @@
 import { Module } from "@nestjs/common";
 import { BullModule } from "@nestjs/bull";
 import { MetricsService } from "./metrics.service";
-import { MetricsProcessor } from "./metrics.processor";
+import { MetricsQueue } from "./metrics.queue";
 import { MetricsInterceptor } from "./metrics.interceptor";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { QueryStat, HourlyStat } from "./metrics.entities";
 import { MetricsDatabaseService } from "./metrics-databse.service";
 import { METRICS_QUEUE } from "./metrics.constants";
+import { MongooseModule } from "@nestjs/mongoose";
+import { RequestMetric, RequestMetricSchema } from "./metrics.entities";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([QueryStat, HourlyStat]),
+    MongooseModule.forFeature([
+      { name: RequestMetric.name, schema: RequestMetricSchema },
+    ]),
     BullModule.registerQueue({
       name: METRICS_QUEUE,
       defaultJobOptions: {
@@ -26,7 +28,7 @@ import { METRICS_QUEUE } from "./metrics.constants";
   ],
   providers: [
     MetricsService,
-    MetricsProcessor,
+    MetricsQueue,
     MetricsDatabaseService,
     MetricsInterceptor,
   ],

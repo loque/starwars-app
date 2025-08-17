@@ -3,6 +3,7 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
+  Logger,
 } from "@nestjs/common";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
@@ -11,6 +12,8 @@ import { MetricsService } from "./metrics.service";
 
 @Injectable()
 export class MetricsInterceptor implements NestInterceptor {
+  private readonly logger = new Logger(MetricsInterceptor.name);
+
   constructor(private readonly metricsService: MetricsService) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -28,15 +31,17 @@ export class MetricsInterceptor implements NestInterceptor {
 
         // Fire and forget without awaiting
         this.metricsService
-          .recordQuery({
+          .recordMetric({
             endpoint,
             query,
             responseTime,
             timestamp: startTime,
             statusCode: response.statusCode,
           })
-          // Silently ignore errors
-          .catch(() => {});
+          .catch((error) => {
+            // Avoid blocking the request with an error
+            this.logger.error("Failed to record metric", error);
+          });
       }),
     );
   }

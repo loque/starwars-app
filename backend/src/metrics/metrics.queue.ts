@@ -6,8 +6,8 @@ import { METRICS_QUEUE, MetricsJob } from "./metrics.constants";
 
 @Processor(METRICS_QUEUE)
 @Injectable()
-export class MetricsProcessor {
-  private readonly logger = new Logger(MetricsProcessor.name);
+export class MetricsQueue {
+  private readonly logger = new Logger(MetricsQueue.name);
 
   constructor(
     private readonly metricsService: MetricsService,

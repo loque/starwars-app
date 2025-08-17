@@ -4,22 +4,16 @@ import { RedisModule } from "@nestjs-modules/ioredis";
 import { SwapiModule } from "./swapi/swapi.module";
 import { CacheModule } from "./cache/cache.module";
 import { MetricsModule } from "./metrics/metrics.module";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { QueryStat, HourlyStat } from "./metrics/metrics.entities";
+import { MongooseModule } from "@nestjs/mongoose";
+
 import { env } from "./env";
 
+const MONGO_URL = `mongodb://${env.MONGO_USER}:${env.MONGO_PASSWORD}@localhost:${env.MONGO_PORT}/${env.MONGO_DB}?authSource=admin`;
 const REDIS_URL = `redis://${env.REDIS_HOST}:${env.REDIS_PORT}`;
-const POSTGRES_URL = `postgresql://${env.POSTGRES_USER}:${env.POSTGRES_PASSWORD}@localhost:${env.POSTGRES_PORT}/${env.POSTGRES_DB}`;
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: "postgres",
-      url: POSTGRES_URL,
-      entities: [QueryStat, HourlyStat],
-      synchronize: env.NODE_ENV !== "production",
-      logging: env.NODE_ENV === "development",
-    }),
+    MongooseModule.forRoot(MONGO_URL),
     BullModule.forRoot({
       redis: {
         host: env.REDIS_HOST,
