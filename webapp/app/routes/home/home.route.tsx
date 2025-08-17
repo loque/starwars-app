@@ -20,13 +20,6 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export async function loader({ request }: Route.LoaderArgs) {
-  const url = new URL(request.url);
-  const name = url.searchParams.get("name") || undefined;
-
-  return { name };
-}
-
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();
   const searchType = formData.get("searchType");
