@@ -3,6 +3,9 @@ import { HttpModule } from "@nestjs/axios";
 import { SwapiService } from "./swapi.service";
 import { SwapiController } from "./swapi.controller";
 import { MetricsModule } from "../metrics/metrics.module";
+import { SwapiRepository } from "./swapi.repository";
+import { MovieMapper } from "./mappers/movie.mapper";
+import { PersonMapper } from "./mappers/person.mapper";
 
 @Module({
   imports: [
@@ -12,7 +15,7 @@ import { MetricsModule } from "../metrics/metrics.module";
     }),
     MetricsModule,
   ],
-  providers: [SwapiService],
+  providers: [SwapiService, SwapiRepository, MovieMapper, PersonMapper],
   exports: [SwapiService],
   controllers: [SwapiController],
 })
