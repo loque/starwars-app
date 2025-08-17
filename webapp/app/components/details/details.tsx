@@ -3,12 +3,21 @@ import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { H3 } from "../ui/text";
 import { cn } from "~/lib/utils";
+import { Header, HeaderBackButton, HeaderTitle, Main } from "../page/page";
 
 export function DetailsPage({ children }: { children: React.ReactNode }) {
   return (
-    <div className="md:py-8 max-w-4xl mx-auto flex-1">
-      <Card className="gap-8">{children}</Card>
-    </div>
+    <>
+      <Header>
+        <HeaderBackButton />
+        <HeaderTitle />
+      </Header>
+      <Main>
+        <div className="md:py-8 max-w-4xl mx-auto flex-1">
+          <Card className="gap-8">{children}</Card>
+        </div>
+      </Main>
+    </>
   );
 }
 

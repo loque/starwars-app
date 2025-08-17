@@ -16,7 +16,7 @@ export function SearchBox() {
   function submitHandler(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    submit(formData, { method: "post", action: "/" });
+    submit(formData, { method: "post", action: "/results" });
   }
 
   const peoplePlaceholder = "e.g. Chewbacca, Yoda";

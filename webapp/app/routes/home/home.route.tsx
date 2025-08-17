@@ -3,6 +3,12 @@ import { useMatch } from "react-router";
 import { ResultsBox } from "./results-box";
 import { SearchBox } from "./search-box";
 import { api, type SearchResult } from "~/lib/api";
+import {
+  Header,
+  HeaderBackButton,
+  HeaderTitle,
+  Main,
+} from "~/components/page/page";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -36,14 +42,22 @@ export default function Home({ actionData: results }: Route.ComponentProps) {
   const displayResults = Boolean(useMatch("/results"));
 
   return (
-    <div data-slot="home" className="w-full h-full flex">
-      <div className="md:hidden w-full h-full">
-        {displayResults ? <ResultsBox results={results} /> : <SearchBox />}
-      </div>
-      <div className="hidden md:flex flex-1 flex-row max-w-5xl gap-8 py-8 mx-auto items-start">
-        <SearchBox />
-        <ResultsBox results={results} />
-      </div>
-    </div>
+    <>
+      <Header>
+        {displayResults && <HeaderBackButton />}
+        <HeaderTitle />
+      </Header>
+      <Main>
+        <div data-slot="home" className="w-full h-full flex">
+          <div className="md:hidden w-full h-full">
+            {displayResults ? <ResultsBox results={results} /> : <SearchBox />}
+          </div>
+          <div className="hidden md:flex flex-1 flex-row max-w-5xl gap-8 py-8 mx-auto items-start">
+            <SearchBox />
+            <ResultsBox results={results} />
+          </div>
+        </div>
+      </Main>
+    </>
   );
 }
