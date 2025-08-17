@@ -45,6 +45,7 @@ services:
       - api
     environment:
       VITE_API_URL: http://api:${API_PORT}
+      PORT: ${WEBAPP_PORT}
     networks:
       - swstarter-network
 
