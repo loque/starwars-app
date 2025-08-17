@@ -3,9 +3,8 @@ import axios, { type AxiosInstance } from "axios";
 let _api: AxiosInstance | undefined;
 export function api() {
   if (!_api) {
-    _api = axios.create({
-      baseURL: process.env.VITE_API_URL || "http://localhost:3000",
-    });
+    const baseURL = `http://${process.env.VITE_API_HOST || "localhost"}:${process.env.API_PORT}`;
+    _api = axios.create({ baseURL });
   }
   return _api;
 }

@@ -47,7 +47,8 @@ services:
     depends_on:
       - api
     environment:
-      VITE_API_URL: http://api:${API_PORT}
+      VITE_API_HOST: api
+      API_PORT: ${API_PORT}
       PORT: ${WEBAPP_PORT}
     networks:
       - swstarter-network
