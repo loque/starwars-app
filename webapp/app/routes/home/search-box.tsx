@@ -55,7 +55,7 @@ export function SearchBox() {
           />
         </div>
         <div>
-          <Button type="submit" disabled={!searchTerm && isNavigating}>
+          <Button type="submit" disabled={!searchTerm || isNavigating}>
             {isNavigating ? "Searching..." : "Search"}
           </Button>
         </div>
