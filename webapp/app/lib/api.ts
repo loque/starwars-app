@@ -4,7 +4,7 @@ let _api: AxiosInstance | undefined;
 export function api() {
   if (!_api) {
     _api = axios.create({
-      baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
+      baseURL: process.env.VITE_API_URL || "http://localhost:3000",
     });
   }
   return _api;
