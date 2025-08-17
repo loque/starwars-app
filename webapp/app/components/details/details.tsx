@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { Button } from "../ui/button";
-import { Card } from "../ui/card";
+import { SimpleCard } from "../ui/simple-card";
 import { H3 } from "../ui/text";
 import { cn } from "~/lib/utils";
 import { Header, HeaderBackButton, HeaderTitle, Main } from "../page/page";
@@ -14,7 +14,7 @@ export function DetailsPage({ children }: { children: React.ReactNode }) {
       </Header>
       <Main>
         <div className="md:py-8 max-w-4xl w-full mx-auto flex-1">
-          <Card className="gap-8">{children}</Card>
+          <SimpleCard className="gap-8">{children}</SimpleCard>
         </div>
       </Main>
     </>

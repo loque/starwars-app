@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
-import { Card } from "~/components/ui/card";
+import { SimpleCard } from "~/components/ui/simple-card";
 import { H2, H3, P } from "~/components/ui/text";
 import { isPersonSummary, type SearchResult } from "~/lib/api";
 
@@ -8,7 +8,7 @@ type ResultsBoxProps = { results?: SearchResult[]; isLoading?: boolean };
 
 export function ResultsBox({ results, isLoading }: ResultsBoxProps) {
   return (
-    <Card className="flex-1 md:min-h-[43rem]">
+    <SimpleCard className="flex-1 md:min-h-[43rem]">
       <H2 className="leading-5 pb-2">Results</H2>
       <div className="bg-[#c4c4c4] w-full h-0.25"></div>
       {!isLoading && !!results?.length && (
@@ -50,6 +50,6 @@ export function ResultsBox({ results, isLoading }: ResultsBoxProps) {
           </Button>
         </>
       )}
-    </Card>
+    </SimpleCard>
   );
 }

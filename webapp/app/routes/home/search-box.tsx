@@ -1,4 +1,4 @@
-import { Card } from "~/components/ui/card";
+import { SimpleCard } from "~/components/ui/simple-card";
 import { H4 } from "~/components/ui/text";
 import { Label } from "~/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
@@ -35,7 +35,7 @@ export function SearchBox({
   const moviesPlaceholder = "e.g. A New Hope, The Empire Strikes Back";
 
   return (
-    <Card className="justify-between md:gap-6 md:min-w-sm" asChild>
+    <SimpleCard className="justify-between md:gap-6 md:min-w-sm" asChild>
       <form onSubmit={submitHandler}>
         <div className="flex flex-col gap-6">
           <H4>What are you searching for?</H4>
@@ -69,6 +69,6 @@ export function SearchBox({
           </Button>
         </div>
       </form>
-    </Card>
+    </SimpleCard>
   );
 }
