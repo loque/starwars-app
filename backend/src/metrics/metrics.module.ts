@@ -12,6 +12,7 @@ import {
   MetricReport,
   MetricReportSchema,
 } from "./metrics.entities";
+import { MetricsController } from "./metrics.controller";
 
 @Module({
   imports: [
@@ -34,5 +35,6 @@ import {
   ],
   providers: [MetricsService, MetricsInterceptor, MetricsBuffer, MetricsStore],
   exports: [MetricsInterceptor, MetricsBuffer],
+  controllers: [MetricsController],
 })
 export class MetricsModule {}
