@@ -6,6 +6,12 @@ export function H2({ className, ...props }: React.ComponentProps<"h2">) {
   );
 }
 
+export function H3({ className, ...props }: React.ComponentProps<"h3">) {
+  return (
+    <h3 className={cn("font-bold text-md md:text-md", className)} {...props} />
+  );
+}
+
 export function H4({ className, ...props }: React.ComponentProps<"h4">) {
   return (
     <h4
