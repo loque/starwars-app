@@ -1,17 +1,23 @@
 import { Module } from "@nestjs/common";
 import { BullModule } from "@nestjs/bull";
 import { MetricsService } from "./metrics.service";
-import { MetricsQueue } from "./metrics.queue";
+import { MetricsBuffer } from "./metrics.buffer";
 import { MetricsInterceptor } from "./metrics.interceptor";
-import { MetricsDatabaseService } from "./metrics-databse.service";
+import { MetricsStore } from "./metrics.store";
 import { METRICS_QUEUE } from "./metrics.constants";
 import { MongooseModule } from "@nestjs/mongoose";
-import { RequestMetric, RequestMetricSchema } from "./metrics.entities";
+import {
+  RequestMetric,
+  RequestMetricSchema,
+  MetricReport,
+  MetricReportSchema,
+} from "./metrics.entities";
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: RequestMetric.name, schema: RequestMetricSchema },
+      { name: MetricReport.name, schema: MetricReportSchema },
     ]),
     BullModule.registerQueue({
       name: METRICS_QUEUE,
@@ -26,12 +32,7 @@ import { RequestMetric, RequestMetricSchema } from "./metrics.entities";
       },
     }),
   ],
-  providers: [
-    MetricsService,
-    MetricsQueue,
-    MetricsDatabaseService,
-    MetricsInterceptor,
-  ],
-  exports: [MetricsService, MetricsInterceptor],
+  providers: [MetricsService, MetricsInterceptor, MetricsBuffer, MetricsStore],
+  exports: [MetricsInterceptor, MetricsBuffer],
 })
 export class MetricsModule {}
