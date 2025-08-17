@@ -5,10 +5,13 @@ import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import type { SearchType } from "~/lib/api";
-import { useSubmit } from "react-router";
+import { useNavigation, useSubmit } from "react-router";
 import { useState } from "react";
 
 export function SearchBox() {
+  const navigation = useNavigation();
+  const isNavigating = Boolean(navigation.location);
+
   const [searchType, setSearchType] = useState<SearchType>("people");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const submit = useSubmit();
@@ -52,8 +55,8 @@ export function SearchBox() {
           />
         </div>
         <div>
-          <Button type="submit" disabled={!searchTerm}>
-            Search
+          <Button type="submit" disabled={!searchTerm && isNavigating}>
+            {isNavigating ? "Searching..." : "Search"}
           </Button>
         </div>
       </form>

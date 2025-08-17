@@ -1,5 +1,5 @@
 import type { Route } from "./+types/home.route";
-import { useMatch } from "react-router";
+import { useMatch, useNavigation } from "react-router";
 import { ResultsBox } from "./results-box";
 import { SearchBox } from "./search-box";
 import { api, type SearchResult } from "~/lib/api";
@@ -32,12 +32,14 @@ export async function action({ request }: Route.ActionArgs) {
 }
 
 export default function Home({ actionData: results }: Route.ComponentProps) {
+  const navigation = useNavigation();
+  const isNavigating = Boolean(navigation.location);
   const displayResults = Boolean(useMatch("/results"));
 
   return (
     <>
       <Header>
-        {displayResults && <HeaderBackButton />}
+        {displayResults && !isNavigating && <HeaderBackButton />}
         <HeaderTitle />
       </Header>
       <Main>
