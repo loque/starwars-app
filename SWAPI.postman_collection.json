@@ -1,0 +1,407 @@
+{
+  "info": {
+    "_postman_id": "1dbc1a3c-a99d-4609-90c6-ba5fb7dbd089",
+    "name": "SWAPI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1054200"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/health",
+          "host": ["{{baseURL}}"],
+          "path": ["health"]
+        }
+      },
+      "response": [
+        {
+          "name": "Health Check",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/health",
+              "host": ["{{baseURL}}"],
+              "path": ["health"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Content-Type",
+              "value": "text/html; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "2"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"2-eoX0dku9ba8cNUXvu/DyeabcC+s\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 Aug 2025 00:59:37 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "ok"
+        }
+      ]
+    },
+    {
+      "name": "Search People",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/people?name=bi",
+          "host": ["{{baseURL}}"],
+          "path": ["people"],
+          "query": [
+            {
+              "key": "name",
+              "value": "bi"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Search People",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/people?name=bi",
+              "host": ["{{baseURL}}"],
+              "path": ["people"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "bi"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "147"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"93-wWZjS3VHghL4kGfIhDeBV+ZnEJk\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 Aug 2025 02:04:22 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"uid\": \"9\",\n        \"name\": \"Biggs Darklighter\"\n    },\n    {\n        \"uid\": \"10\",\n        \"name\": \"Obi-Wan Kenobi\"\n    },\n    {\n        \"uid\": \"36\",\n        \"name\": \"Jar Jar Binks\"\n    },\n    {\n        \"uid\": \"45\",\n        \"name\": \"Bib Fortuna\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Get Person",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/people/10",
+          "host": ["{{baseURL}}"],
+          "path": ["people", "10"]
+        }
+      },
+      "response": [
+        {
+          "name": "Get Person",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/people/10",
+              "host": ["{{baseURL}}"],
+              "path": ["people", "10"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "410"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"19a-4/CERXBahdkpspJukvKnSpW3pN4\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 Aug 2025 00:59:41 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"uid\": \"10\",\n    \"name\": \"Obi-Wan Kenobi\",\n    \"height\": \"182\",\n    \"gender\": \"male\",\n    \"birth_year\": \"57BBY\",\n    \"eye_color\": \"blue-gray\",\n    \"hair_color\": \"auburn, white\",\n    \"mass\": \"77\",\n    \"movies\": [\n        {\n            \"uid\": \"1\",\n            \"title\": \"A New Hope\"\n        },\n        {\n            \"uid\": \"2\",\n            \"title\": \"The Empire Strikes Back\"\n        },\n        {\n            \"uid\": \"3\",\n            \"title\": \"Return of the Jedi\"\n        },\n        {\n            \"uid\": \"4\",\n            \"title\": \"The Phantom Menace\"\n        },\n        {\n            \"uid\": \"5\",\n            \"title\": \"Attack of the Clones\"\n        },\n        {\n            \"uid\": \"6\",\n            \"title\": \"Revenge of the Sith\"\n        }\n    ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Search Movies",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/movies?title=th",
+          "host": ["{{baseURL}}"],
+          "path": ["movies"],
+          "query": [
+            {
+              "key": "title",
+              "value": "th"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Search Movies",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/movies?title=th",
+              "host": ["{{baseURL}}"],
+              "path": ["movies"],
+              "query": [
+                {
+                  "key": "title",
+                  "value": "th"
+                }
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "214"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"d6-yEG72GDI/TgCzlB+z6ejIK719xQ\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 Aug 2025 00:59:43 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"uid\": \"2\",\n        \"title\": \"The Empire Strikes Back\"\n    },\n    {\n        \"uid\": \"3\",\n        \"title\": \"Return of the Jedi\"\n    },\n    {\n        \"uid\": \"4\",\n        \"title\": \"The Phantom Menace\"\n    },\n    {\n        \"uid\": \"5\",\n        \"title\": \"Attack of the Clones\"\n    },\n    {\n        \"uid\": \"6\",\n        \"title\": \"Revenge of the Sith\"\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Get Movie",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/movies/3",
+          "host": ["{{baseURL}}"],
+          "path": ["movies", "3"]
+        }
+      },
+      "response": [
+        {
+          "name": "Get Movie",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/movies/3",
+              "host": ["{{baseURL}}"],
+              "path": ["movies", "3"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "1262"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"4ee-GY8zMteVW3tkeLIaxXL/bAUikic\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 Aug 2025 00:59:45 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"uid\": \"3\",\n    \"title\": \"Return of the Jedi\",\n    \"opening_crawl\": \"Luke Skywalker has returned to\\r\\nhis home planet of Tatooine in\\r\\nan attempt to rescue his\\r\\nfriend Han Solo from the\\r\\nclutches of the vile gangster\\r\\nJabba the Hutt.\\r\\n\\r\\nLittle does Luke know that the\\r\\nGALACTIC EMPIRE has secretly\\r\\nbegun construction on a new\\r\\narmored space station even\\r\\nmore powerful than the first\\r\\ndreaded Death Star.\\r\\n\\r\\nWhen completed, this ultimate\\r\\nweapon will spell certain doom\\r\\nfor the small band of rebels\\r\\nstruggling to restore freedom\\r\\nto the galaxy...\",\n    \"characters\": [\n        {\n            \"uid\": \"1\",\n            \"name\": \"Luke Skywalker\"\n        },\n        {\n            \"uid\": \"2\",\n            \"name\": \"C-3PO\"\n        },\n        {\n            \"uid\": \"3\",\n            \"name\": \"R2-D2\"\n        },\n        {\n            \"uid\": \"4\",\n            \"name\": \"Darth Vader\"\n        },\n        {\n            \"uid\": \"5\",\n            \"name\": \"Leia Organa\"\n        },\n        {\n            \"uid\": \"10\",\n            \"name\": \"Obi-Wan Kenobi\"\n        },\n        {\n            \"uid\": \"13\",\n            \"name\": \"Chewbacca\"\n        },\n        {\n            \"uid\": \"14\",\n            \"name\": \"Han Solo\"\n        },\n        {\n            \"uid\": \"16\",\n            \"name\": \"Jabba Desilijic Tiure\"\n        },\n        {\n            \"uid\": \"18\",\n            \"name\": \"Wedge Antilles\"\n        },\n        {\n            \"uid\": \"20\",\n            \"name\": \"Yoda\"\n        },\n        {\n            \"uid\": \"21\",\n            \"name\": \"Palpatine\"\n        },\n        {\n            \"uid\": \"22\",\n            \"name\": \"Boba Fett\"\n        },\n        {\n            \"uid\": \"25\",\n            \"name\": \"Lando Calrissian\"\n        },\n        {\n            \"uid\": \"27\",\n            \"name\": \"Ackbar\"\n        },\n        {\n            \"uid\": \"28\",\n            \"name\": \"Mon Mothma\"\n        },\n        {\n            \"uid\": \"29\",\n            \"name\": \"Arvel Crynyd\"\n        },\n        {\n            \"uid\": \"30\",\n            \"name\": \"Wicket Systri Warrick\"\n        },\n        {\n            \"uid\": \"31\",\n            \"name\": \"Nien Nunb\"\n        },\n        {\n            \"uid\": \"45\",\n            \"name\": \"Bib Fortuna\"\n        }\n    ]\n}"
+        }
+      ]
+    },
+    {
+      "name": "Get Metrics Report",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseURL}}/metrics/report",
+          "host": ["{{baseURL}}"],
+          "path": ["metrics", "report"]
+        }
+      },
+      "response": [
+        {
+          "name": "Get Metrics Report",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseURL}}/metrics/report",
+              "host": ["{{baseURL}}"],
+              "path": ["metrics", "report"]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "510"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1fe-pHB1zihPORv6x2OWF9YBfjepDZ0\""
+            },
+            {
+              "key": "Date",
+              "value": "Sun, 17 Aug 2025 02:32:08 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"totalRequests\": 7,\n    \"avgResponseTime\": 0.8571428571428571,\n    \"topQueries\": [\n        {\n            \"endpoint\": \"GET /people\",\n            \"query\": \"name=bi\",\n            \"count\": 2,\n            \"percentage\": 28.57\n        },\n        {\n            \"endpoint\": \"GET /movies/3\",\n            \"query\": \"\",\n            \"count\": 1,\n            \"percentage\": 14.29\n        },\n        {\n            \"endpoint\": \"GET /movies\",\n            \"query\": \"title=th\",\n            \"count\": 1,\n            \"percentage\": 14.29\n        },\n        {\n            \"endpoint\": \"GET /people/10\",\n            \"query\": \"\",\n            \"count\": 1,\n            \"percentage\": 14.29\n        },\n        {\n            \"endpoint\": \"GET /health\",\n            \"query\": \"\",\n            \"count\": 1,\n            \"percentage\": 14.29\n        }\n    ],\n    \"hourlyDistribution\": [\n        {\n            \"hour\": 21,\n            \"count\": 7\n        }\n    ],\n    \"createdAt\": \"2025-08-17T02:03:46.807Z\"\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseURL",
+      "value": "http://localhost:3000",
+      "type": "default"
+    }
+  ]
+}

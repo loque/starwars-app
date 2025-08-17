@@ -46,6 +46,19 @@ Once all services are running:
 - **Web Application**: http://localhost:5173
 - **API Endpoints**: http://localhost:3000
 
+## API Testing
+
+A Postman collection is available at `SWAPI.postman_collection.json` that includes sample requests for all API endpoints:
+
+- Health check
+- Search people by name
+- Get person details
+- Search movies by title
+- Get movie details
+- Get metrics report
+
+Import this collection into Postman to easily test the API endpoints.
+
 ## Development
 
 ### Backend (NestJS)
