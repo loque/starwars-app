@@ -45,7 +45,7 @@ export default function MovieDetails({
                 to={{
                   pathname: `/person/${character.uid}`,
                 }}
-                className="test-sm text-link"
+                className="test-sm text-link hover:underline decoration-link"
               >
                 {character.name}
               </Link>
