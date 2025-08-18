@@ -48,8 +48,4 @@ export class CacheService {
     );
     return fresh;
   }
-
-  async del(key: string) {
-    await this.client.del(key);
-  }
 }
