@@ -1,7 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { Injectable, Logger } from "@nestjs/common";
 import { firstValueFrom } from "rxjs";
-import { CacheService } from "src/cache/cache.service";
+import { CacheService } from "../cache/cache.service";
 import type {
   SwapiFilmDto,
   SwapiPersonDto,
