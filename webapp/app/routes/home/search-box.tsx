@@ -46,12 +46,16 @@ export function SearchBox({
             className="flex flex-row gap-8"
           >
             <div className="flex items-center gap-2">
-              <RadioGroupItem value="people" id="people" />
-              <Label htmlFor="people">People</Label>
+              <Label className="flex items-center gap-2">
+                <RadioGroupItem value="people" id="people" />
+                <span>People</span>
+              </Label>
             </div>
             <div className="flex items-center gap-2">
-              <RadioGroupItem value="movies" id="movies" />
-              <Label htmlFor="movies">Movies</Label>
+              <Label className="flex items-center gap-2">
+                <RadioGroupItem value="movies" id="movies" />
+                <span>Movies</span>
+              </Label>
             </div>
           </RadioGroup>
           <Input
